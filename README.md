@@ -2,7 +2,7 @@
 
 Video A‑Frame scene visualizing DDD compresion simulation GLB model.
 
-📦 **Live Demo**: https://aitorrc.github.io/ddd-compresion-video/
+📦 **Live Demo**: https://aitorrc.github.io/ddd-compresion-video2/
 
 ---
 
