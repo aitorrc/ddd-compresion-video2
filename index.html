@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+  <!--MAKE SURE TO CHANGE TITLE FOR EACH MODEL-->
+  <head>
+<!-- ---------------------------Define Metadata and outside sources--------------------------- -->      
+    <meta charset="utf-8">
+      <!-- charset defines the characters the HTML code can recognize -->
+    <title>DDD compresion simulation</title>
+      <!-- Define the title to be displayed in the web browser tab -->
+    <meta name="author" content="Aitor Cruzado">
+    <meta name="description" content="VR DDD compresion simulation">
+    <meta name="keywords" content ="HTML,A-Frame,Texas A&M,VR,CMS3FAST, DDD Compresion">
+      <!-- Define metadata such as descriptions authors keywords for referencing and searching -->
+    
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script> 
+    <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script> 
+    <script src="https://unpkg.com/aframe-animation-timeline-component@1.6.0/dist/aframe-animation-timeline-component.min.js"></script>
+      <!-- src above defines the a-frame, animation, and timeline programs and loads it in to the script -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+    <script src="easyrtc/easyrtc.js"></script>
+    <script src="https://unpkg.com/networked-aframe@^0.6.0/dist/networked-aframe.min.js"></script>
+
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component@1.0.5/dist/aframe-particle-system-component.min.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    
+    <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.1/dist/aframe-extras.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.1/d3.min.js"></script>
+    <script src="https://cdn.rawgit.com/zcanter/aframe-scatterplot/master/dist/a-scatterplot.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.x/dist/aframe-look-at-component.min.js"></script>
+  </head>
+  
+<!-- ---------------------------Define Animation Timeline--------------------------- -->      
+  <body>                
+    <a-scene animation-timeline__1="timeline: #myTimeline; loop: true"
+             networked-scene="
+      room: basic;
+      debug: true;
+    " foo>
+      <a-assets>
+       <img id="grid" src="HD_transparent_picture.png" crossorigin="anonymous"> 
+        
+<!--  Modifications to these attribute effect the entire animation. Change dur to adjust animation speed -->        
+      <a-mixin id="model"
+               position="-8 4 -9" 
+               scale = ".03 .03 .03" 
+               rotation = "0 -90 0"
+               animation__fadein="property: material.opacity; dur: 1000; from: 0; to: 1; easing: linear; autoplay: false"
+               animation__fadeout="property: material.opacity; from: 1; to: 0; dur: 1000; easing: linear; autoplay: false"
+               animation__togglevisible="property: visible; from: false; to: true; dur: 1; autoplay: false"
+               animation__togglevisibleoff="property: visible; from: true; to: false; dur: 1; autoplay: false"
+               visible="false"
+             ></a-mixin>  
+        
+        <a-mixin id="step"
+                 width="5.1" align="center" position="-1.9 1.5 -4.5"
+                 animation__togglevisible="property: visible; from: false; to: true; dur: 1; autoplay: false"
+                 animation__togglevisibleoff="property: visible; from: true; to: false; dur: 1; autoplay: false"
+                 visible="false"
+                 look-at="[camera]"
+             ></a-mixin> 
+        
+        <a-timeline id="myTimeline">
+        <!--Start-->
+          <a-timeline-animation select="#m1" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s1" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m1" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m1" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m1" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s1" name="togglevisibleoff"></a-timeline-animation>
+        
+          <a-timeline-animation select="#m2" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s2" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m2" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m2" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m2" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s2" name="togglevisibleoff"></a-timeline-animation>
+        
+          <a-timeline-animation select="#m3" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s3" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m3" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m3" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m3" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s3" name="togglevisibleoff"></a-timeline-animation>
+        
+          <a-timeline-animation select="#m4" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s4" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m4" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m4" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m4" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s4" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m5" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s5" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m5" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m5" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m5" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s5" name="togglevisibleoff"></a-timeline-animation>
+        
+          <a-timeline-animation select="#m6" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s6" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m6" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m6" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m6" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s6" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m7" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s7" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m7" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m7" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m7" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s7" name="togglevisibleoff"></a-timeline-animation>
+        
+          <a-timeline-animation select="#m8" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s8" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m8" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m8" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m8" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s8" name="togglevisibleoff"></a-timeline-animation>
+                  
+          <a-timeline-animation select="#m9" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s9" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m9" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m9" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m9" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s9" name="togglevisibleoff"></a-timeline-animation>
+                  
+          <a-timeline-animation select="#m10" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s10" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m10" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m10" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m10" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s10" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m11" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s11" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m11" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m11" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m11" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s11" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m12" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s12" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m12" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m12" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m12" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s12" name="togglevisibleoff"></a-timeline-animation>
+                  
+          <a-timeline-animation select="#m13" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s13" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m13" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m13" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m13" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s13" name="togglevisibleoff"></a-timeline-animation>
+                  
+          <a-timeline-animation select="#m14" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s14" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m14" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m14" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m14" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s14" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m15" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s15" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m15" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m15" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m15" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s15" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m16" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s16" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m16" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m16" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m16" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s16" name="togglevisibleoff"></a-timeline-animation>
+              
+          <a-timeline-animation select="#m17" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s17" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m17" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m17" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m17" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s17" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m18" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s18" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m18" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m18" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m18" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s18" name="togglevisibleoff"></a-timeline-animation>
+                  
+          <a-timeline-animation select="#m19" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s19" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m19" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m19" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m19" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s19" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m20" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s20" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m20" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m20" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m20" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s20" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m21" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s21" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m21" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m21" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m21" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s21" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m22" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s22" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m22" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m22" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m22" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s22" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m23" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s23" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m23" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m23" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m23" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s23" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m24" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s24" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m24" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m24" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m24" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s24" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m25" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s25" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m25" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m25" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m25" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s25" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m26" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s26" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m26" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m26" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m26" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s26" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m27" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s27" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m27" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m27" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m27" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s27" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m28" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s28" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m28" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m28" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m28" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s28" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m29" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s29" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m29" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m29" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m29" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s29" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m30" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s30" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m30" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m30" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m30" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s30" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m31" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s31" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m31" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m31" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m31" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s31" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m32" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s32" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m32" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m32" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m32" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s32" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m33" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s33" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m33" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m33" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m33" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s33" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m34" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s34" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m34" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m34" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m34" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s34" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m35" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s35" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m35" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m35" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m35" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s35" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m36" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s36" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m36" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m36" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m36" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s36" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m37" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s37" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m37" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m37" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m37" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s37" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m38" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s38" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m38" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m38" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m38" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s38" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m39" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s39" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m39" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m39" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m39" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s39" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m40" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s40" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m40" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m40" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m40" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s40" name="togglevisibleoff"></a-timeline-animation>
+          
+          <a-timeline-animation select="#m41" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#s41" name="togglevisible"></a-timeline-animation>
+          <a-timeline-animation select="#m41" name="fadein"></a-timeline-animation>
+          <a-timeline-animation select="#m41" name="fadeout"></a-timeline-animation>
+          <a-timeline-animation select="#m41" name="togglevisibleoff"></a-timeline-animation>
+          <a-timeline-animation select="#s41" name="togglevisibleoff"></a-timeline-animation>
+      <!--End--> 
+        </a-timeline>
+<!-- ---------------------------Define VR World and Viewing Avatar--------------------------- -->
+       <img id="sky" src="space.png" crossorigin="anonymous" /> 
+        
+        <template id="avatar-template">
+          <a-entity class="avatar">
+            <a-sphere class="head"
+              color="#5985ff"
+              scale="0.45 0.5 0.4"
+              random-color
+            ></a-sphere>
+            <a-entity class="face"
+              position="0 0.05 0">
+              <a-sphere class="eye"
+                color="#efefef"
+                position="0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12">
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+              <a-sphere class="eye"
+                color="#efefef"
+                position="-0.16 0.1 -0.35"
+                scale="0.12 0.12 0.12">
+                <a-sphere class="pupil"
+                  color="#000"
+                  position="0 0 -1"
+                  scale="0.2 0.2 0.2"
+                ></a-sphere>
+              </a-sphere>
+            </a-entity>
+          </a-entity>
+        </template>
+      </a-assets>
+
+      <a-entity id = "player" movement-controls="fly:true; speed:1.2">
+        
+      <a-entity networked="template:#avatar-template;attachTemplateToLocal:false;" camera position="0 1.6 0" spawn-in-circle="radius:3" look-controls>
+        
+        <a-sphere class="head"
+          visible="false"
+          random-color
+        >
+        </a-sphere>
+        <a-text id="s1" value="step1" mixin="step"></a-text>
+        <a-text id="s2" value="step2" mixin="step"></a-text>
+        <a-text id="s3" value="step3" mixin="step"></a-text>
+        <a-text id="s4" value="step4" mixin="step"></a-text>
+        <a-text id="s5" value="step5" mixin="step" ></a-text>
+        <a-text id="s6" value="step6" mixin="step"></a-text>
+        <a-text id="s7" value="step7" mixin="step"></a-text>
+        <a-text id="s8" value="step8" mixin="step"></a-text>
+        <a-text id="s9" value="step9" mixin="step"></a-text>
+        <a-text id="s10" value="step10" mixin="step"></a-text>
+        <a-text id="s11" value="step11" mixin="step"></a-text>
+        <a-text id="s12" value="step12" mixin="step"></a-text>
+        <a-text id="s13" value="step13" mixin="step"></a-text>
+        <a-text id="s14" value="step14" mixin="step"></a-text>
+        <a-text id="s15" value="step15" mixin="step"></a-text>
+        <a-text id="s16" value="step16" mixin="step"></a-text>
+        <a-text id="s17" value="step17" mixin="step"></a-text>
+        <a-text id="s18" value="step18" mixin="step"></a-text>
+        <a-text id="s19" value="step19" mixin="step"></a-text>
+        <a-text id="s20" value="step20" mixin="step"></a-text>
+        <a-text id="s21" value="step21" mixin="step"></a-text>
+        <a-text id="s22" value="step22" mixin="step"></a-text>
+        <a-text id="s23" value="step23" mixin="step"></a-text>
+        <a-text id="s24" value="step24" mixin="step" ></a-text>
+        <a-text id="s25" value="step25" mixin="step"></a-text>
+        <a-text id="s26" value="step26" mixin="step"></a-text>
+        <a-text id="s27" value="step27" mixin="step"></a-text>
+        <a-text id="s28" value="step28" mixin="step"></a-text>
+        <a-text id="s29" value="step29" mixin="step"></a-text>
+        <a-text id="s30" value="step30" mixin="step"></a-text>
+        <a-text id="s31" value="step31" mixin="step"></a-text>
+        <a-text id="s32" value="step32" mixin="step"></a-text>
+        <a-text id="s33" value="step33" mixin="step"></a-text>
+        <a-text id="s34" value="step34" mixin="step"></a-text>
+        <a-text id="s35" value="step35" mixin="step"></a-text>
+        <a-text id="s36" value="step36" mixin="step"></a-text>
+        <a-text id="s37" value="step37" mixin="step"></a-text>
+        <a-text id="s38" value="step38" mixin="step"></a-text>
+        <a-text id="s39" value="step39" mixin="step"></a-text>
+        <a-text id="s40" value="step40" mixin="step"></a-text>
+        <a-text id="s41" value="step41" mixin="step"></a-text>
+        
+      </a-entity>
+      </a-entity>
+
+      <a-entity position="0 0 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+        material="src: #grid; repeat: 10000 10000; transparent: True; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+
+      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+      <a-entity light="color: #ffaaff; intensity: 1.5" position="5 5 5"></a-entity>
+
+      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+  
+<!-- ---------------------------Define Animations--------------------------- -->
+      <!--<a-entity gltf-model="url(link to model asset)"    #Identify the .glb file to render  
+                id = "m(x)"                                  #Give this model run a unique identifier
+                mixin="model">                               #Run it through the model timeline defined above
+     </a-entity> -->
+      
+    <!-- Timesteps -->
+      <a-entity gltf-model="rs0000.glb"  
+                id = "m1"
+                mixin="model">
+      </a-entity>
+    
+      <a-entity gltf-model="rs0001.glb"  
+                id = "m2"
+                mixin="model">
+      </a-entity>
+    
+      <a-entity gltf-model="rs0002.glb"  
+                id = "m3"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0003.glb"  
+                id = "m4"
+                mixin="model">
+      </a-entity>
+    
+      <a-entity gltf-model="rs0004.glb"  
+                id = "m5"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0005.glb"  
+                id = "m6"
+                mixin="model">
+      </a-entity>
+    
+      <a-entity gltf-model="rs0006.glb"  
+                id = "m7"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0007.glb"  
+                id = "m8"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0008.glb"  
+                id = "m9"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0009.glb"  
+                id = "m10"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0010.glb"  
+                id = "m11"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0011.glb"  
+                id = "m12"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0012.glb"  
+                id = "m13"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0013.glb"  
+                id = "m14"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0014.glb"  
+                id = "m15"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0015.glb"  
+                id = "m16"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0016.glb"  
+                id = "m17"
+                mixin="model">
+      </a-entity>  
+      <a-entity gltf-model="rs0017.glb"  
+                id = "m18"
+                mixin="model">
+      </a-entity>
+  
+      <a-entity gltf-model="rs0018.glb"  
+                id = "m19"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0019.glb"  
+                id = "m20"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0020.glb"  
+                id = "m21"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0021.glb"  
+                id = "m22"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0022.glb"  
+                id = "m23"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0023.glb"  
+                id = "m24"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0024.glb"  
+                id = "m25"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0025.glb"  
+                id = "m26"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0026.glb"  
+                id = "m27"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0027.glb"  
+                id = "m28"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0028.glb"  
+                id = "m29"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0029.glb"  
+                id = "m30"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0030.glb"  
+                id = "m31"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0031.glb"  
+                id = "m32"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0032.glb"  
+                id = "m33"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0033.glb"  
+                id = "m34"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0034.glb"  
+                id = "m35"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0035.glb"  
+                id = "m36"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0036.glb"  
+                id = "m37"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0037.glb"  
+                id = "m38"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0038.glb"  
+                id = "m39"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0039.glb"  
+                id = "m40"
+                mixin="model">
+      </a-entity>
+      <a-entity gltf-model="rs0040.glb"  
+                id = "m41"
+                mixin="model">
+      </a-entity>
+      
+      
+    <!-- End of Animation -->  
+    </a-scene>
+<!-- ---------------------------Mobile Devices--------------------------- -->      
+    <script>
+      // On mobile remove elements that are resource heavy
+       var isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile) {
+        var particles = document.getElementById('particles');
+        particles.parentNode.removeChild(particles);
+      }
+      
+      // Define custom schema for syncing avatar color, set by random-color
+      NAF.schemas.add({
+        template: '#avatar-template',
+        components: [
+          'position',
+          'rotation',
+          {
+            selector: '.head',
+            component: 'material',
+            property: 'color'
+          }
+        ]
+      });
+    </script>
+  </body>
+</html>
